@@ -67,13 +67,13 @@ ORDER BY revenue DESC;
 
 # List the companies with average paid days off or more.
 
-SELECT company_name, 
-AVG (paid_time_off_days)
+SELECT*
 From fortune_companies
 GROUP BY paid_time_off_days
 HAVING paid_time_off_days>=18;
 
 # Select the companies that are technology based and have healthcare benefits. 
+
 SELECT *
 FROM fortune_companies
 WHERE industry = "Technology" 
