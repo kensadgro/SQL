@@ -1,0 +1,47 @@
+#Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
+
+SELECT Quantity, location
+FROM JanSales
+WHERE length (orderID) = 6
+AND orderID <>'Order ID'
+AND location like '%New York%'
+GROUP BY location
+HAVING Quantity > 3
+ORDER BY location
+
+#How many of each type of headphone were sold in February?
+SELECT product 
+, SUM (quantity) as how_many_sold
+FROM FebSales
+WHERE length (orderID) = 6
+AND orderID <>'Order ID'
+AND Product like '%headphone%'
+GROUP BY product
+
+#What was the average amount spent per account in February?
+SELECT sum(quantity*price) as total_spent
+, sum (quantity*price)/ count (cust.acctnum)
+FROM FebSales as feb
+LEFT JOIN customers as cust
+ON cust.order_id = feb.orderID
+WHERE length (orderID) = 6
+AND orderID <>'Order ID'
+
+#What was the average quantity of products purchased per account in February? 
+SELECT sum (quantity) as average_quantity
+, avg (quantity)/ count (cust.acctnum) avg_quantity_per_acct
+FROM FebSales as feb
+LEFT JOIN customers as cust
+ON cust.order_id = feb.orderID
+WHERE length (orderID) = 6
+AND orderID <>'Order ID'
+
+#Which product brought in the most revenue in January and how much revenue did it bring in total?
+SELECT distinct product
+, sum(quantity)
+, price 
+, sum(quantity)*price as revenue
+FROM JanSales 
+WHERE length (orderID) = 6
+AND orderID <>'Order ID'
+GROUP BY product
